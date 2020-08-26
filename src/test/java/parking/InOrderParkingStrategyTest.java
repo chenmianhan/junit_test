@@ -2,6 +2,8 @@ package parking;
 
 import org.junit.Test;
 
+import java.util.Collections;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -43,22 +45,28 @@ public class InOrderParkingStrategyTest {
         //given
         InOrderParkingStrategy inOrderParkingStrategy = spy(new InOrderParkingStrategy());
         Car mockedCar = mock(Car.class);
-        when(mockedCar.getName()).thenReturn("Benz");
 
         //when
         Receipt receipt = inOrderParkingStrategy.park(null, mockedCar);
 
         //then
         verify(inOrderParkingStrategy, times(1)).createNoSpaceReceipt(mockedCar);
-        assertEquals("Benz", receipt.getCarName());
-
     }
 
     @Test
     public void testPark_givenThereIsOneParkingLotWithSpace_thenCreateReceipt() {
+        //given
+        InOrderParkingStrategy inOrderParkingStrategy = spy(new InOrderParkingStrategy());
+        ParkingLot mockedParkingLot = mock(ParkingLot.class);
+        Car mockedCar = mock(Car.class);
+        when(mockedCar.getName()).thenReturn("Benz");
+        when(mockedParkingLot.isFull()).thenReturn(false);
 
-        /* Exercise 2: Test park() method. Use Mockito.spy and Mockito.verify to test the situation for one available parking lot */
+        //when
+        Receipt receipt = inOrderParkingStrategy.park(Collections.singletonList(mockedParkingLot), mockedCar);
 
+        //then
+        verify(inOrderParkingStrategy, times(1)).createReceipt(mockedParkingLot, mockedCar);
     }
 
     @Test
