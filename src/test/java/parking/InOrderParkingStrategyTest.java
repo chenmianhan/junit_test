@@ -3,8 +3,7 @@ package parking;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class InOrderParkingStrategyTest {
 
@@ -41,8 +40,17 @@ public class InOrderParkingStrategyTest {
 
     @Test
     public void testPark_givenNoAvailableParkingLot_thenCreateNoSpaceReceipt() {
+        //given
+        InOrderParkingStrategy inOrderParkingStrategy = spy(new InOrderParkingStrategy());
+        Car mockedCar = mock(Car.class);
+        when(mockedCar.getName()).thenReturn("Benz");
 
-        /* Exercise 2: Test park() method. Use Mockito.spy and Mockito.verify to test the situation for no available parking lot */
+        //when
+        Receipt receipt = inOrderParkingStrategy.park(null, mockedCar);
+
+        //then
+        verify(inOrderParkingStrategy, times(1)).createNoSpaceReceipt(mockedCar);
+        assertEquals("Benz", receipt.getCarName());
 
     }
 
