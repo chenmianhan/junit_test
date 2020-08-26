@@ -2,6 +2,7 @@ package parking;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
@@ -72,22 +73,34 @@ public class InOrderParkingStrategyTest {
     public void testPark_givenThereIsOneFullParkingLot_thenCreateReceipt() {
         //given
         InOrderParkingStrategy inOrderParkingStrategy = spy(new InOrderParkingStrategy());
-        ParkingLot mockedParkingLot = mock(ParkingLot.class);
+        ParkingLot mockedFirstParkingLot = mock(ParkingLot.class);
+        ParkingLot mockedSecondParkingLot = mock(ParkingLot.class);
         Car mockedCar = mock(Car.class);
-        when(mockedParkingLot.isFull()).thenReturn(true);
+        when(mockedFirstParkingLot.isFull()).thenReturn(false);
+        when(mockedSecondParkingLot.isFull()).thenReturn(true);
 
         //when
-        Receipt receipt = inOrderParkingStrategy.park(Collections.singletonList(mockedParkingLot), mockedCar);
+        Receipt receipt = inOrderParkingStrategy.park(Arrays.asList(mockedFirstParkingLot, mockedSecondParkingLot), mockedCar);
 
         //then
-        verify(inOrderParkingStrategy, times(1)).createNoSpaceReceipt(mockedCar);
+        verify(inOrderParkingStrategy, times(1)).createReceipt(mockedFirstParkingLot, mockedCar);
     }
 
     @Test
     public void testPark_givenThereIsMultipleParkingLotAndFirstOneIsFull_thenCreateReceiptWithUnfullParkingLot() {
+        //given
+        InOrderParkingStrategy inOrderParkingStrategy = spy(new InOrderParkingStrategy());
+        ParkingLot mockedFirstParkingLot = mock(ParkingLot.class);
+        ParkingLot mockedSecondParkingLot = mock(ParkingLot.class);
+        Car mockedCar = mock(Car.class);
+        when(mockedFirstParkingLot.isFull()).thenReturn(true);
+        when(mockedSecondParkingLot.isFull()).thenReturn(false);
 
-        /* Exercise 3: Test park() method. Use Mockito.spy and Mockito.verify to test the situation for multiple parking lot situation */
+        //when
+        Receipt receipt = inOrderParkingStrategy.park(Arrays.asList(mockedFirstParkingLot, mockedSecondParkingLot), mockedCar);
 
+        //then
+        verify(inOrderParkingStrategy, times(1)).createReceipt(mockedSecondParkingLot, mockedCar);
     }
 
 
