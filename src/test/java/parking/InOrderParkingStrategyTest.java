@@ -27,10 +27,16 @@ public class InOrderParkingStrategyTest {
 
     @Test
     public void testCreateNoSpaceReceipt_givenACar_thenGiveANoSpaceReceipt() {
+        //given
+        Car mockedCar = mock(Car.class);
+        when(mockedCar.getName()).thenReturn("Benz");
+        InOrderParkingStrategy inOrderParkingStrategy = new InOrderParkingStrategy();
 
-        /* Exercise 1, Write a test case on InOrderParkingStrategy.createNoSpaceReceipt()
-         * With using Mockito to mock the input parameter */
+        //when
+        Receipt receipt = inOrderParkingStrategy.createNoSpaceReceipt(mockedCar);
 
+        //then
+        assertEquals("Benz", receipt.getCarName());
     }
 
     @Test
