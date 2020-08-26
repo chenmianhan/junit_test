@@ -84,10 +84,14 @@ public class VipParkingStrategyTest {
 
     @Test
     public void testIsAllowOverPark_givenCarNameContainsCharacterAAndIsNotVipCar_thenReturnFalse() {
-        /* Exercise 5, Write a test case on VipParkingStrategy.isAllowOverPark()
-         * You may refactor the code, or try to use
-         * use @RunWith(MockitoJUnitRunner.class), @Mock (use Mockito, not PowerMock) and @InjectMocks
-         */
+        //given
+        Car car = createMockCar("AVIP");
+
+        //when
+        when(mockedCarDao.isVip(car.getName())).thenReturn(false);
+
+        //then
+        assertFalse(mockedVipParkingStrategy.isAllowOverPark(car));
     }
 
     @Test
