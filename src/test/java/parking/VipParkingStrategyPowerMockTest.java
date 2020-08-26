@@ -30,10 +30,15 @@ public class VipParkingStrategyPowerMockTest {
 
     @Test
     public void testCalculateHourlyPrice_givenNotSunday_thenPriceIsDoubleOfNonSundayPrice() {
+        //given
+        VipParkingStrategy mockedVipParkingStrategy = new VipParkingStrategy();
+        mockStatic(ParkingLot.class);
+        when(ParkingLot.getBasicHourlyPrice()).thenReturn(20);
 
-        /* Exercise 6: Write test case for VipParkingStrategy calculateHourlyPrice
-         * by using PowerMock to mock static method */
+        //when
+        int price = mockedVipParkingStrategy.calculateHourlyPrice();
 
-
+        //then
+        Assert.assertEquals(40, price);
     }
 }
