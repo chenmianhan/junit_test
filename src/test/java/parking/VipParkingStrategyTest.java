@@ -2,17 +2,31 @@ package parking;
 
 import org.junit.Test;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import java.util.Collections;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 public class VipParkingStrategyTest {
 
     @Test
     public void testPark_givenAVipCarAndAFullParkingLog_thenGiveAReceiptWithCarNameAndParkingLotName() {
+        //given
+        VipParkingStrategy vipParkingStrategy = spy(new VipParkingStrategy());
+        ParkingLot mockedParkingLot = mock(ParkingLot.class);
+        Car mockedCar = mock(Car.class);
+        when(mockedParkingLot.getName()).thenReturn("ParkingLot 1");
+        when(mockedCar.getName()).thenReturn("Benz");
+        when(mockedParkingLot.isFull()).thenReturn(true);
+        doReturn(true).when(vipParkingStrategy).isAllowOverPark(mockedCar);
 
-        /* Exercise 4, Write a test case on VipParkingStrategy.park()
-         * With using Mockito spy, verify and doReturn */
+        //when
+        Receipt receipt = vipParkingStrategy.park(Collections.singletonList(mockedParkingLot), mockedCar);
 
+        //then
+        verify(vipParkingStrategy, times(1)).createReceipt(mockedParkingLot, mockedCar);
+        assertEquals("ParkingLot 1", receipt.getParkingLotName());
+        assertEquals("Benz", receipt.getCarName());
     }
 
     @Test
